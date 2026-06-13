@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="cordova-plugin-face-verify"
+        version="1.1.1">
+    <name>FaceVerify</name>
+    <description>基于阿里云SDK的Cordovar人脸核验身份证的插件</description>
+    <author>CTY-Library</author>
+    <license>MIT</license>
+    <keywords>cordova, face, verify, aliyun, AI</keywords>
+    <repo>https://github.com/CTY-Library/cordova-plugin-face-verify</repo>
+    <!-- 插件配置参数 -->  
+    <preference name="ACCESSKEYSECRET"/>
+    <preference name="ACCESSKEYID"/>
+    <!-- JavaScript模块 -->
+    <js-module name="FaceVerify" src="www/FaceVerify.js">
+        <clobbers target="FaceVerify" />
+    </js-module>
+
+    <!-- 平台配置：Android -->
+    <platform name="android">
+        <!-- 注入AI语音识别所需的Key和token到AndroidManifest.xml -->          
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">          
+            <meta-data android:name="com.plugin.face.verify.ACCESSKEYSECRET" android:value="$ACCESSKEYSECRET" />            
+            <meta-data android:name="com.plugin.face.verify.ACCESSKEYID" android:value="$ACCESSKEYID" />
+            <activity 
+            android:name="com.plugin.aliyun.faceverify.FaceVerifyActivity" 
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false" />
+        </config-file>
+        <!-- 源文件 -->
+        <source-file src="src/android/FaceVerify.java"  target-dir="src/com/plugin/aliyun/faceverify" />  
+        <source-file src="src/android/FaceVerifyActivity.java"  target-dir="src/com/plugin/aliyun/faceverify" />   
+
+        <!-- 阿里云SDK依赖包 -->
+        <lib-file src="src/android/libs/APSecuritySDK-deepSec-7.0.1.20240528.jiagu.aar" />
+        <lib-file src="src/android/libs/baseverify-2.3.32.1.250219103020.aar" />
+        <lib-file src="src/android/libs/facade-2.3.32.1.250219103020.aar" />
+        <lib-file src="src/android/libs/face-2.3.32.1.250219103020.aar" />
+        <lib-file src="src/android/libs/faceaudio-2.3.32.1.250219103020.aar" />
+        <lib-file src="src/android/libs/facelanguage-2.3.32.1.250219103020.aar" />
+        <lib-file src="src/android/libs/facephotinus-2.3.32.1.250219103020.aar" />
+        <lib-file src="src/android/libs/ocr-2.3.32.1.250219103020.aar" />
+        <!-- 权限配置 -->
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-feature android:name="android.hardware.camera.any" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.INTERNET" /> 
+            <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>        
+        </config-file>        
+        <!-- 构建配置 -->
+        <framework src="src/android/face-verify-build.gradle" custom="true" type="gradleReference" />         
+        <!-- 插件入口 -->
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="FaceVerify">
+                <param name="android-package" value="com.plugin.aliyun.faceverify.FaceVerify" />
+            </feature>
+        </config-file>
+    </platform>
+
+    <!-- iOS 平台配置 -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="FaceVerify">
+                <param name="ios-package" value="FaceVerify" />
+            </feature>
+            <preference name="accesskeysecret" value="$ACCESSKEYSECRET"/>
+            <preference name="accesskeyid" value="$ACCESSKEYID"/>
+        </config-file>
+        
+        <!-- 源文件 -->
+        <source-file src="src/ios/FaceVerify.h" />
+        <source-file src="src/ios/FaceVerify.m" />
+        
+        <!-- ========================================== -->
+        <!-- 1. 第三方 SDK 依赖 (需手动放入 src/ios/libs/) -->
+        <!-- ========================================== -->
+        
+        <!-- 核心人脸验证 SDK -->
+        <framework src="src/ios/libs/ZolozFaceAuthFacade.framework" custom="true" />
+        
+        <!-- 其他阿里云/蚂蚁金服相关依赖库 -->
+        <!-- 请确保这些 .framework 文件确实存在于 src/ios/libs/ 目录下 -->
+        <framework src="src/ios/libs/APBToygerFacade.framework" custom="true" />
+        <framework src="src/ios/libs/APPSecuritySDK.framework" custom="true" />
+        <framework src="src/ios/libs/BioAuthEngine.framework" custom="true"  />
+        <framework src="src/ios/libs/DTFIdentityManager.framework" custom="true" />
+        <framework src="src/ios/libs/DTFMobileRPC.framework" custom="true" />
+        <framework src="src/ios/libs/DTFUtility.framework" custom="true" />
+        <framework src="src/ios/libs/OCRDetectSDKForTech.framework" custom="true"  />
+        <framework src="src/ios/libs/ToygerNative.framework" custom="true" />
+        <framework src="src/ios/libs/ToygerService.framework" custom="true" />
+        <framework src="src/ios/libs/VerifyNativeAbility.framework" custom="true" />
+        <framework src="src/ios/libs/faceguard.framework" custom="true" embed="true" />
+
+        <!-- 
+        src: 插件源码目录中 bundle 文件的相对路径
+        -->
+        <resource-file src="src/ios/libs/APBToygerFacade.framework/APBToygerFacade.bundle" target="APBToygerFacade.bundle" />
+        <resource-file src="src/ios/libs/BioAuthEngine.framework/BioAuthEngine.bundle" target="BioAuthEngine.bundle" />
+        <resource-file src="src/ios/libs/ToygerService.framework/ToygerService.bundle" target="ToygerService.bundle" />
+
+
+        <!-- ========================================== -->
+        <!-- 2. 系统库依赖 (System Libraries) -->
+        <!-- ========================================== -->
+        
+        <!-- 基础系统框架 -->
+        <framework src="CoreGraphics.framework" />
+        <framework src="Accelerate.framework" />
+        <framework src="SystemConfiguration.framework" />
+        <framework src="AssetsLibrary.framework" />
+        <framework src="CoreTelephony.framework" />
+        <framework src="QuartzCore.framework" />
+        <framework src="CoreFoundation.framework" />
+        <framework src="CoreLocation.framework" />
+        <framework src="ImageIO.framework" />
+        <framework src="CoreMedia.framework" />
+        <framework src="AVFoundation.framework" />
+        <framework src="WebKit.framework" />
+        <framework src="AudioToolbox.framework" />
+        <framework src="CFNetwork.framework" />
+        <framework src="MobileCoreServices.framework" />
+        <framework src="AdSupport.framework" />
+
+        <!-- 动态库/静态库 (.tbd) -->
+        <framework src="libresolv.tbd" />
+        <framework src="libz.tbd" />
+        <framework src="libc++.1.tbd" />
+        <framework src="libc++abi.tbd" />
+        <!-- 注意：libz.1.2.8.tbd 通常被 libz.tbd 覆盖，如果必须指定版本可保留，否则建议只留 libz.tbd -->
+        <framework src="libz.1.2.8.tbd" />
+        
+        <!-- 权限配置 -->
+        <config-file target="*-Info.plist" parent="NSCameraUsageDescription">
+            <string>我们需要访问您的相机以进行人脸身份核验</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="NSUserTrackingUsageDescription">
+            <string>请放心，开启权限不会获取您在其他APP或网站的隐私信息，该权限仅用于标识设备并保障实名认证流程安全、提升服务使用体验。</string>
+        </config-file>
+        <config-file target="*-Info.plist" parent="CFBundleIdentifier">
+            <string>com.zhongzilian.chestnutapp</string>
+        </config-file>
+    </platform>
+</plugin>

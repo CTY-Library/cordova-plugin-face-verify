@@ -1,0 +1,6 @@
+framework module ZolozFaceAuthFacade {
+  umbrella header "ZolozFaceAuthFacade.h"
+
+  export *
+  module * { export * }
+}

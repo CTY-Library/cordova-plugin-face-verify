@@ -1,0 +1,28 @@
+repositories{
+    jcenter()
+    flatDir{
+        dirs 'libs'
+    }
+}
+
+android {       
+    // 添加以下内容      
+    useLibrary 'org.apache.http.legacy'
+}
+
+dependencies {
+   
+     //fastjson 依赖
+    implementation 'com.alibaba:fastjson:1.2.83_noneautotype'
+    
+    // 本地依赖
+    implementation(name: 'baseverify-2.3.32.1.250219103020', ext: 'aar')
+    implementation(name: 'facade-2.3.32.1.250219103020', ext: 'aar')
+    implementation(name: 'face-2.3.32.1.250219103020', ext: 'aar')
+    implementation(name: 'ocr-2.3.32.1.250219103020', ext: 'aar')
+    implementation(name: 'faceaudio-2.3.32.1.250219103020', ext: 'aar')
+    implementation(name: 'facelanguage-2.3.32.1.250219103020', ext: 'aar')
+    implementation(name: 'facephotinus-2.3.32.1.250219103020', ext: 'aar')
+    implementation(name: 'APSecuritySDK-deepSec-7.0.1.20240528.jiagu', ext: 'aar')
+
+}
