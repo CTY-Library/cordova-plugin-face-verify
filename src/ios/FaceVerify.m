@@ -104,6 +104,7 @@ static NSString * const CPCameraErrorPermissionRestricted = @"PERMISSION_RESTRIC
                 // --- 验证成功 ---
                 NSDictionary *resultData = @{
                     @"status": @"success",
+                    @"code": @(response.code),
                     @"message": @"Verification successful",
                     @"rawResponse": response.retMessageSub ?: @""
                 };
