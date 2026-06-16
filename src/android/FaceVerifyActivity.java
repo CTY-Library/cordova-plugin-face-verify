@@ -57,10 +57,10 @@ public class FaceVerifyActivity extends Activity {
         extParams.put(ZIMFacade.ZIM_EXT_PARAMS_KEY_NEED_FACE_NOTICE, ZIMFacade.ZIM_EXT_PARAMS_VAL_NEED_FACE_NOTICE_TRUE);
         zimFacade.verify(certifyID, true, extParams, response -> {
             if (1000 == response.code) {
-                finishWithResult(true, response.code,response.reason + response.retMessageSub));
+                finishWithResult(true, response.code,response.reason + response.retMessageSub);
                 Log.i(TAG, "verify callback 认证通过  videoFilePath=" + response.videoFilePath);
             } else {
-                finishWithResult(false, response.code,response.reason + response.retMessageSub));
+                finishWithResult(false, response.code,response.reason + response.retMessageSub);
                 Log.i(TAG, "verify callback 认证失败  " + response.code + ":" + response.reason);
             }
 
