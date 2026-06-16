@@ -106,7 +106,7 @@ static NSString * const CPCameraErrorPermissionRestricted = @"PERMISSION_RESTRIC
                     @"status": @"success",
                     @"code": @(response.code),
                     @"message": @"Verification successful",
-                    @"rawResponse": response.retMessageSub ?: @""
+                    @"rawResponse": response.retMessageSub ?: @"成功"
                 };
                 [self sendSuccessResult:resultData];
                 
@@ -115,7 +115,7 @@ static NSString * const CPCameraErrorPermissionRestricted = @"PERMISSION_RESTRIC
                 [self sendErrorResult:@{
                     @"status": @"cancel",
                     @"code": @(response.code),
-                    @"message": @"User cancelled verification"
+                    @"message": response.retCodeSub ?: @"User cancelled verification" 
                 }];
                 
             } else {
@@ -255,16 +255,16 @@ static NSString * const CPCameraErrorPermissionRestricted = @"PERMISSION_RESTRIC
 
 - (NSString *)getErrorMessageByCode:(NSInteger)code {
     switch (code) {
-        case 1000: return @"Success";
-        case 1001: return @"System Error";
-        case 1002: return @"Parameter Error";
-        case 1003: return @"User Cancelled";
-        case 2001: return @"Camera Permission Denied";
-        case 2002: return @"Network Error";
-        case 2003: return @"Device Time Incorrect";
-        case 2004: return @"Face Detection Failed";
-        case 2005: return @"Face Match Failed";
-        case 2006: return @"Verification Failed";
+        case 1000: return @"成功";
+        case 1001: return @"系统错误";
+        case 1002: return @"参数错误";
+        case 1003: return @"用户取消";
+        case 2001: return @"相机权限拒绝";
+        case 2002: return @"网络错误";
+        case 2003: return @"设备时间不正确";
+        case 2004: return @"人脸检测失败";
+        case 2005: return @"人脸匹配失败";
+        case 2006: return @"扫脸验证失败";
         default: return [NSString stringWithFormat:@"Unknown Error (%ld)", (long)code];
     }
 }
