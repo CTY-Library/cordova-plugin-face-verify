@@ -23,7 +23,7 @@ public class FaceVerifyActivity extends Activity {
         String certifyId = getIntent().getStringExtra("certifyId");
         
         if (certifyId == null || certifyId.isEmpty()) {
-            finishWithResult(false, "certifyId");
+            finishWithResult(false, 2006, "certifyId is null or empty");
             return;
         }
         // 开始验证
