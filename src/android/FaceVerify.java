@@ -173,12 +173,14 @@ public class FaceVerify extends CordovaPlugin {
             if (currentCallbackContext != null) {
                 // 解析阿里云SDK返回的结果
                 boolean is_success = data.getBooleanExtra("is_success", false);
-                String result_message = data.getStringExtra("result_message");
+                int code = data.getIntExtra("code",-1);
+                String message = data.getStringExtra("message");
 
                 JSONObject result = new JSONObject();
                 try {
                     result.put("is_success", is_success);
-                    result.put("result_message", result_message);
+                    result.put("code", code);
+                    result.put("message", message);
                     if (resultCode == Activity.RESULT_OK) {
                         currentCallbackContext.success(result);
                     }else{
@@ -193,7 +195,7 @@ public class FaceVerify extends CordovaPlugin {
     }
 
      @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException {
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) throws JSONException {
         boolean hasGrantResult = grantResults != null && grantResults.length > 0;
         if (!hasGrantResult) {
             if (requestCode == PERMISSION_REQ_CODE) {
