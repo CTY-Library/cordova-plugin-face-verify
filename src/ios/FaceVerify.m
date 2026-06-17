@@ -92,7 +92,8 @@ static NSString * const CPCameraErrorPermissionRestricted = @"PERMISSION_RESTRIC
     
     NSLog(@"certifyId ------>> %@",certifyId);
     NSMutableDictionary  *extParams = [NSMutableDictionary new];
-    [extParams setValue:self forKey:@"currentCtr"];
+    UIViewController *currentcv = [self viewController];
+    [extParams setValue:currentcv forKey:@"currentCtr"];
     [ZolozFaceAuthFacade verifyWith:certifyId extParams:extParams onCompletion:^(ZIMResponse *response) {
             dispatch_async(dispatch_get_main_queue(), ^{
             // 防御性检查：防止命令已被释放或重复回调
